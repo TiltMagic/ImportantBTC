@@ -1,20 +1,21 @@
 import bot
 import schedule
 import time
+import json
 
 news_sources = ['http://cnn.com',
                 'https://jezebel.com',
                 'https://mashable.com',
-                'https://www.npr.org']
+                'https://www.npr.org',
+                'https://www.wired.com']
+
+# Get api keys from file named api_keys.json in parent directory
+with open('../api_keys.json') as keys:
+    btc_keys = json.load(keys)
+    important_btc_keys = btc_keys
 
 
-# Account keys and tokens from twitter API
-important_btc = {'consumer_key': None,
-                 'consumer_secret': None',
-                 'access_token': None,
-                 'access_token_secret': None}
-
-bot = bot.TwitterBot(**important_btc)
+bot = bot.TwitterBot(**important_btc_keys)
 bot.post_news_from_sources(news_sources)
 
 

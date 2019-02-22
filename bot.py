@@ -35,8 +35,6 @@ class TwitterBot:
         with open('database.json', 'r') as database:
             data = json.load(database)
             data['posted'].append(article_info)
-            # url_data = list(set(data['posted']))
-            # data['posted'] = url_data
             final_data = json.dumps(data, sort_keys=True, indent=4)
 
         with open('database.json', 'w') as database:
@@ -80,22 +78,29 @@ class TwitterBot:
         # Posts final formatted product to Twitter using given source_url
         filtered_articles = []
         used_articles = self.read_saved_from_database()
+        """Test_new_articles list below is for testing"""
+        # test_new_articles = []
 
         for url in source_urls:
             article = headline.Newspaper(url)
             article.build_article_titles_urls()
             new_articles = article.article_titles_urls
-            filtered_articles += list(set.symmetric_difference(
-                set(used_articles), set(new_articles)))
+            """Uncomment line below for testing"""
+            # test_new_articles += new_articles
+            filtered_articles += list(set(new_articles).difference(set(used_articles)))
 
-        for value in filtered_articles:
-            print(value)
+        """Unccoment below for testing"""
+        # for value in filtered_articles:
+        #     print(value)
 
-        for value in filtered_articles:
-            if value in used_articles:
-                print('True***********')
-            else:
-                print('False')
+        # for value in filtered_articles:
+        #     if value in used_articles:
+        #         print('True***********')
+        #     else:
+        #         print('False')
+        #
+        # print("Filtered articles: {}".format(len(filtered_articles)))
+        # print("New articles: {}".format(len(test_new_articles)))
 
         the_headline, url = random.choice(filtered_articles)
 
